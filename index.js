@@ -49,7 +49,10 @@ const defaults = {
   gap: 1,
 
   // bin type: 'circle', 'rect'
-  type: 'rect'
+  type: 'rect',
+
+  // axis type: linear, time
+  axisType: 'linear'
 }
 
 /**
@@ -99,7 +102,7 @@ export default class Heatmap {
 
   init() {
     const { target, width, height, margin, axisPadding, interpolate } = this
-    const { axis, tickSize, xTicks, yTicks } = this
+    const { axis, tickSize, xTicks, yTicks, axisType } = this
     const { color, colorInterpolate, opacityRange } = this
 
     const [w, h] = this.dimensions()
@@ -110,8 +113,13 @@ export default class Heatmap {
       .append('g')
         .attr('transform', `translate(${margin.left}, ${margin.top})`)
 
-    this.x = d3.scale.linear()
-      .range([0, w])
+    if (axisType == 'time') {
+      this.x = d3.time.scale()
+        .range([0, w])
+    } else {
+      this.x = d3.scale.linear()
+        .range([0, w])
+    }
 
     this.y = d3.scale.linear()
       .range([h, 0])
@@ -289,7 +297,7 @@ export default class Heatmap {
    * of bins in each axis should be pre-defined to the desired size,
    * as this library does not compute histograms for you.
    *
-   *   [{ time: X, bins: [{ value: Y, count: Z }] }]
+   *   [{ bin: X, bins: [{ bin: Y, count: Z }] }]
    *
    */
 
