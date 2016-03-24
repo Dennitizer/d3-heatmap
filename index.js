@@ -171,6 +171,8 @@ export default class Heatmap {
 
     x.domain(d3.extent(data, d => d.bin))
     y.domain([yMin, yMax + yStep])
+
+    this.yStep = yStep
   }
 
   /**
@@ -193,7 +195,7 @@ export default class Heatmap {
    */
 
   renderBuckets(data) {
-    const { chart, x, y, color, opacity, gap, type } = this
+    const { chart, x, y, color, opacity, gap, type, yStep } = this
     const [w, h] = this.dimensions()
 
     // max count
@@ -202,10 +204,6 @@ export default class Heatmap {
     // color domain
     color.domain([0, zMax])
     opacity.domain([0, zMax])
-
-    // y-axis step
-    const yd = y.domain()
-    const yStep = yd[1] / data[0].bins.length
 
     // bin dimensions
     const bw = (w / data.length)
