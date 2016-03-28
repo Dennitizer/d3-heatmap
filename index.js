@@ -33,6 +33,9 @@ const defaults = {
   // size of axis ticks
   tickSize: 5,
 
+  // tick formatter
+  tickFormat: null,
+
   // line interpolation
   interpolate: 'basis',
 
@@ -102,7 +105,7 @@ export default class Heatmap {
 
   init() {
     const { target, width, height, margin, axisPadding, interpolate } = this
-    const { axis, tickSize, xTicks, yTicks, axisType } = this
+    const { axis, tickSize, xTicks, yTicks, axisType, tickFormat } = this
     const { color, colorInterpolate, opacityRange } = this
 
     const [w, h] = this.dimensions()
@@ -146,6 +149,7 @@ export default class Heatmap {
       .ticks(yTicks)
       .tickPadding(8)
       .tickSize(tickSize)
+      .tickFormat(tickFormat)
 
     this.chart.append('g')
       .attr('class', 'x axis')
