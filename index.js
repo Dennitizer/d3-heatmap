@@ -55,7 +55,13 @@ const defaults = {
   type: 'rect',
 
   // axis type: linear, time
-  axisType: 'linear'
+  axisType: 'linear',
+
+  // mouseover callback for tooltips or value display
+  mouseover: _ => {},
+
+  // mouseout callback for tooltips or value display
+  mouseout: _ => {}
 }
 
 /**
@@ -243,7 +249,7 @@ export default class Heatmap {
    */
 
   renderBinCircle(col, radius, gap, yStep) {
-    const { opacity, color, y } = this
+    const { opacity, color, y, mouseover, mouseout } = this
 
     const bin = col.selectAll('.bin')
       .data(d => d.bins)
@@ -260,6 +266,9 @@ export default class Heatmap {
       .attr('cx', radius)
       .attr('cy', d => y(d.bin + yStep) + radius)
 
+    bin.on('mouseover', mouseover)
+      .on('mouseleave', mouseout)
+
     // exit
     bin.exit().remove()
   }
@@ -269,7 +278,7 @@ export default class Heatmap {
    */
 
   renderBinRect(col, bw, bh, gap, yStep) {
-    const { opacity, color, y } = this
+    const { opacity, color, y, mouseover, mouseout } = this
 
     const bin = col.selectAll('.bin')
       .data(d => d.bins)
@@ -286,6 +295,9 @@ export default class Heatmap {
       .attr('height', bh - gap)
       .attr('x', 0)
       .attr('y', d => y(d.bin + yStep))
+
+    bin.on('mouseover', mouseover)
+      .on('mouseleave', mouseout)
 
     // exit
     bin.exit().remove()
