@@ -261,7 +261,6 @@ export default class Heatmap {
     // update
     bin.style('fill', d => color(d.count))
       .style('fill-opacity', d => opacity(d.count))
-      .transition()
       .attr('r', radius - gap)
       .attr('cx', radius)
       .attr('cy', d => y(d.bin + yStep) + radius)
@@ -290,7 +289,6 @@ export default class Heatmap {
     // update
     bin.style('fill', d => color(d.count))
       .style('fill-opacity', d => opacity(d.count))
-      .transition()
       .attr('width', bw - gap)
       .attr('height', bh - gap)
       .attr('x', 0)
